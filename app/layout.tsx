@@ -1,5 +1,21 @@
 import "@/app/ui/global.css";
 import { inter } from "@/app/ui/fonts";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: {
+    template: "%s | Acme Dashboard",
+    default: "Acme Dashboard",
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
+  description: "The official dashboard for Acme",
+  metadataBase: new URL("https://next-learn-dashboard.vercel.sh"),
+};
+
+export const experimental_ppr = true;
+
 export default function RootLayout({
   children,
 }: {
