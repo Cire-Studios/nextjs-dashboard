@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { AtSymbolIcon, UserCircleIcon } from "@heroicons/react/24/outline";
-import { Button, SubmitButton } from "@/app/ui/button";
+import { SubmitButton } from "@/app/ui/button";
 import { CustomerState, updateCustomer } from "@/app/lib/actions";
 import { useActionState, useState } from "react";
 import { CustomerField } from "@/app/lib/definitions";
@@ -11,6 +11,7 @@ import Image from "next/image";
 export default function Form({ customer }: { customer: CustomerField }) {
   const initialState: CustomerState = { message: null, errors: {} };
   const [newImageSelected, setNewImageSelected] = useState(false);
+  const [imagePreviewSrc, setImagePreviewSrc] = useState(customer.image_url);
   const updateCustomerWithId = updateCustomer.bind(null, customer.id);
   const [state, formAction] = useActionState(
     updateCustomerWithId,
@@ -89,9 +90,12 @@ export default function Form({ customer }: { customer: CustomerField }) {
             />
             <span className="mx-2 text-gray-500">→</span>
             <div className="relative flex flex-col items-center">
-              <img
+              <Image
                 id="image-preview"
+                src={imagePreviewSrc}
                 alt="New image preview"
+                width={64}
+                height={64}
                 className="rounded-full h-[64px] w-[64px] mb-2"
                 style={{ display: newImageSelected ? "block" : "none" }}
               />
@@ -121,13 +125,7 @@ export default function Form({ customer }: { customer: CustomerField }) {
                     setNewImageSelected(true);
                     const reader = new FileReader();
                     reader.onload = (event) => {
-                      const imgElement = document.getElementById(
-                        "image-preview"
-                      ) as HTMLImageElement;
-                      if (imgElement) {
-                        imgElement.src = event.target?.result as string;
-                        imgElement.style.display = "block";
-                      }
+                      setImagePreviewSrc(event.target?.result as string);
                     };
                     reader.readAsDataURL(file);
                   }

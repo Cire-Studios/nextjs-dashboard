@@ -1,5 +1,5 @@
 "use client";
-import { deleteCustomer, deleteInvoice } from "@/app/lib/actions";
+import { deleteCustomer } from "@/app/lib/actions";
 import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useState } from "react";

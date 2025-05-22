@@ -5,9 +5,13 @@ import { AtSymbolIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import { SubmitButton } from "@/app/ui/button";
 import { createCustomer, CustomerState } from "@/app/lib/actions";
 import { useActionState, useState } from "react";
+import Image from "next/image";
 
 export default function Form() {
   const [newImageSelected, setNewImageSelected] = useState(false);
+  const [imagePreviewSrc, setImagePreviewSrc] = useState(
+    "/customers/default.png"
+  );
   const initialState: CustomerState = { message: null, errors: {} };
   const [state, formAction] = useActionState(createCustomer, initialState);
 
@@ -86,12 +90,7 @@ export default function Form() {
                   setNewImageSelected(true);
                   const reader = new FileReader();
                   reader.onload = (event) => {
-                    const imgElement = document.getElementById(
-                      "create-image-preview"
-                    ) as HTMLImageElement;
-                    if (imgElement) {
-                      imgElement.src = event.target?.result as string;
-                    }
+                    setImagePreviewSrc(event.target?.result as string);
                   };
                   reader.readAsDataURL(file);
                 }
@@ -105,11 +104,14 @@ export default function Form() {
             </label>
           </div>
           <div className="relative flex items-center h-[132px] w-[132px]">
-            <img
+            <Image
               id="create-image-preview"
+              src={imagePreviewSrc}
               alt="Image preview"
               className="mt-2 rounded-full h-[132px] w-[132px]"
               style={{ display: newImageSelected ? "block" : "none" }}
+              width={132}
+              height={132}
             />
             <button
               id="remove-image"

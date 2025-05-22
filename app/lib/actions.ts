@@ -100,7 +100,7 @@ export async function createInvoice(
     `;
   } catch (error) {
     return {
-      message: "Database Error: Failed to Create Invoice.",
+      message: "Database Error: Failed to Create Invoice." + error,
     };
   }
   revalidatePath("/dashboard/invoices");
@@ -139,7 +139,7 @@ export async function updateInvoice(
     `;
   } catch (error) {
     return {
-      message: "Database Error: Failed to Update Invoice.",
+      message: "Database Error: Failed to Update Invoice." + error,
     };
   }
   revalidatePath("/dashboard/invoices");
@@ -194,8 +194,8 @@ export async function createCustomer(
     try {
       await writeFile(filepath, buffer);
       image_url = `/customers/${filename}`;
-    } catch (err) {
-      return { message: "Failed to save image to server." };
+    } catch (error) {
+      return { message: "Failed to save image to server." + error };
     }
   }
 
@@ -255,8 +255,8 @@ export async function updateCustomer(
     try {
       await writeFile(filepath, buffer);
       image_url = `/customers/${filename}`;
-    } catch (err) {
-      return { message: "Failed to save image to server." };
+    } catch (error) {
+      return { message: "Failed to save image to server." + error };
     }
   }
 
@@ -296,7 +296,7 @@ export async function updateCustomer(
       image_url = null; // unset so we don't delete the previous image below.
     }
     return {
-      message: "Database Error: Failed to Update Customer.",
+      message: "Database Error: Failed to Update Customer." + error,
     };
   }
 
